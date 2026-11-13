@@ -266,7 +266,7 @@
   function getWorker() {
     if(worker)return;
     try {
-      worker=new Worker('python-worker.js', { type: 'module' });
+      worker=new Worker('python-worker.js?v=20261113-2', { type: 'module' });
       worker.onmessage=handleWorkerMessage;
       worker.onerror=()=>failWorker('Kunde inte starta Python. Kontrollera internetanslutningen och öppna sidan via en webbserver.');
       loadingTimer=setTimeout(()=>{
