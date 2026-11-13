@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#008080">
+  <meta name="description" content="Lär dig Python på svenska, steg för steg. 42 korta lektioner, riktiga övningar och en Python-editor i webbläsaren.">
+  <title>Pythonlabbet — lär dig Python, steg för steg</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="retro98.css">
+  <script defer src="content.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="desktop">
+    <div class="desktop-label" aria-hidden="true"><span class="desktop-label-icon">▤</span> Pythonlabbet<br><small>Min dator</small></div>
+    <div class="app-window">
+      <div class="window-titlebar">
+        <div class="window-title"><span class="window-app-icon" aria-hidden="true">Py</span><span>Pythonlabbet – Python för nybörjare</span></div>
+        <div class="window-controls" aria-hidden="true"><span class="win-control win-min"></span><span class="win-control win-max"></span><span class="win-control win-close">×</span></div>
+      </div>
+  <header class="topbar">
+    <div class="topbar-start">
+      <button class="menu-toggle icon-button" type="button" id="menuToggle" aria-label="Öppna kursmenyn" aria-expanded="false">☰</button>
+      <a href="#start" class="logo" aria-label="Pythonlabbet, startsida"><span class="logo-mark">py<span>.</span></span><span>python<span class="logo-accent">labbet</span></span></a>
+      <span class="logo-divider"></span><span class="topbar-caption">Lär dig koda, på riktigt.</span>
+    </div>
+    <div class="topbar-end">
+      <nav class="topnav" aria-label="Huvudmeny">
+        <a href="#start" data-nav="start">Start</a>
+        <a href="#lektion/vad-ar-python" data-nav="lesson">Lektioner</a>
+        <a href="#kommandon" data-nav="reference">Kommandon</a>
+        <a href="#lekplats" data-nav="playground">Lekplats</a>
+      </nav>
+      <button type="button" class="search-trigger" id="searchTrigger" aria-label="Sök lektioner och kommandon"><span>⌕</span><span class="search-text">Sök</span><kbd>⌘ K</kbd></button>
+    </div>
+  </header>
+  <div class="shell">
+    <div class="sidebar-backdrop" id="sidebarBackdrop" hidden></div>
+    <aside class="sidebar" id="sidebar" aria-label="Kursmeny">
+      <div class="sidebar-inner">
+        <div class="sidebar-head"><div><span class="eyebrow">DIN KURS</span><h2>Från noll till kod.</h2></div><button class="mobile-close icon-button" type="button" id="menuClose" aria-label="Stäng menyn">✕</button></div>
+        <div class="progress-panel"><div class="progress-heading"><span>Din utveckling</span><strong id="progressPercent">0%</strong></div><div class="progress-track"><div class="progress-fill" id="progressBar"></div></div><div class="progress-caption"><span id="progressText">0 av 42 klara</span><span>● Sparas lokalt</span></div></div>
+        <div class="sidebar-section-label">LEKTIONER</div>
+        <nav id="lessonNav" class="lesson-nav"></nav>
+        <div class="sidebar-bottom"><div class="sidebar-note"><span class="sidebar-note-icon">✦</span><div><strong>Du behöver inte kunna allt.</strong><p>En liten sak i taget räcker långt.</p></div></div><a href="#kommandon" class="sidebar-shortcut">↗ <span>Snabbguide till kommandon</span></a></div>
+      </div>
+    </aside>
+    <main id="main" class="main-area" tabindex="-1"></main>
+  </div>
+      <footer class="win-statusbar"><div>▣&nbsp; Redo</div><div>Python 3 · 42 lektioner · Sparas i webbläsaren</div><div class="status-corner" aria-hidden="true">◢</div></footer>
+    </div>
+    <div class="desktop-taskbar" aria-hidden="true"><span class="start-emblem">▦</span><strong>Start</strong><span class="taskbar-item"><span class="taskbar-app-icon">Py</span> Pythonlabbet</span><span class="taskbar-clock">▣&nbsp; 1998</span></div>
+  </div>
+  <dialog id="searchDialog" class="search-dialog" aria-label="Sök på Pythonlabbet"><div class="search-dialog-head"><span class="search-glass">⌕</span><input id="globalSearch" placeholder="Sök t.ex. listor, print, if ..." aria-label="Sök lektioner och kommandon" autocomplete="off"><button type="button" id="searchClose" aria-label="Stäng sökningen">Esc</button></div><div id="searchResults" class="search-results"></div><p class="search-dialog-footer">Välj en lektion eller ett kommando. Tryck Esc för att stänga.</p></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
