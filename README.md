@@ -41,13 +41,24 @@ python -m http.server 8000
 
 ## Hur körning av Python fungerar
 
-Pythonmotorn är **Pyodide**, som laddas från en versionslåst CDN när eleven trycker "Kör" första gången. Internet krävs första gången och vid behov för att hämta motorn igen. Efter att den laddats exekveras koden i webbläsaren i en separat Web Worker. Vid en oändlig loop avbryts arbetaren efter 8 sekunder och kan startas om vid nästa försök.
+Pythonmotorn är **Pyodide**, som laddas från en versionslåst CDN när eleven trycker "Kör" första gången. Koden använder numera en **modulbaserad Web Worker**, som krävs av Pyodide 314, och prövar en reservserver (UNPKG) om jsDelivr inte fungerar. Internet krävs första gången och vid behov för att hämta motorn igen. Efter att den laddats exekveras koden i webbläsaren i en separat Web Worker. Vid en oändlig loop avbryts arbetaren efter 8 sekunder och kan startas om vid nästa försök.
 
 - Koden skickas inte till någon egen server av Pythonlabbet.
 - Det finns inget användarkonto eller lärarkonto, ingen central lagring och ingen elevöversikt.
 - Inmatningsfältet för `input()` används som provsvar, en rad per svar.
 - Filövningen använder bara en tillfällig fil i Pyodides virtuella filsystem, inte elevens faktiska hårddisk.
 - Python i webbläsaren kan inte alltid göra allt en vanlig Python-installation kan (t.ex. vanlig direktåtkomst till datorns filer, systemkommandon, alla tredjepartsbibliotek).
+
+## Om Pythonmotorn inte laddar
+
+Den här versionen rättar ett fel i den tidigare 90-talsversionen: Pyodide 314 kräver `new Worker(..., { type: 'module' })` och import av `pyodide.mjs`. Den äldre tekniken `importScripts('.../pyodide.js')` fungerar inte längre.
+
+Om Python ändå inte går att starta behöver elevernas nätverk ha tillgång till minst en av följande adresser:
+
+- `https://cdn.jsdelivr.net/pyodide/v314.0.7/full/`
+- `https://unpkg.com/pyodide@314.0.7/`
+
+Om skolan blockerar båda behövs nätverksåtkomst till en av servrarna eller en självhostad Pyodide-installation. I webbläsarens utvecklarverktyg (F12 → Nätverk) kan man se vilken resurs som stoppas. Använd en webbadress (HTTPS), inte en lokal `file://`-adress.
 
 ## Anpassa lektioner
 

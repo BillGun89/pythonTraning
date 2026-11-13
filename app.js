@@ -266,12 +266,12 @@
   function getWorker() {
     if(worker)return;
     try {
-      worker=new Worker('python-worker.js');
+      worker=new Worker('python-worker.js', { type: 'module' });
       worker.onmessage=handleWorkerMessage;
       worker.onerror=()=>failWorker('Kunde inte starta Python. Kontrollera internetanslutningen och öppna sidan via en webbserver.');
       loadingTimer=setTimeout(()=>{
         if(!workerReady)failWorker('Python kunde inte laddas. Kontrollera internet och prova igen.');
-      },30000);
+      },90000);
     }catch(e){failWorker('Kunde inte starta Python. Publicera sidan på Cloudflare Pages eller använd en lokal webbserver.');}
   }
   function failWorker(message) {
@@ -281,6 +281,7 @@
     if($('codeFeedback'))$('codeFeedback').innerHTML='';
   }
   function handleWorkerMessage({data}) {
+    if(data.type==='loading'){setRunBusy(true,data.message);return;}
     if(data.type==='init-error'){failWorker('Python-motorn kunde inte laddas: '+data.error);return;}
     if(data.type==='ready'){
       clearTimeout(loadingTimer);workerReady=true;

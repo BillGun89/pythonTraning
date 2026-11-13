@@ -1,14 +1,34 @@
 /* Python körs i en separat Web Worker. En oändlig loop kan stoppas utan att hela sidan låser sig. */
-const BASE = 'https://cdn.jsdelivr.net/pyodide/v314.0.7/full/';
+// Pyodide 314 kräver en MODUL-worker (inte klassisk importScripts()).
+// Om skolans nätverk blockerar jsDelivr försöker vi med en annan CDN.
+const SOURCES = [
+  { name: 'jsDelivr', base: 'https://cdn.jsdelivr.net/pyodide/v314.0.7/full/' },
+  { name: 'UNPKG', base: 'https://unpkg.com/pyodide@314.0.7/' }
+];
 let pyodide;
 (async function initialize() {
-  try {
-    importScripts(BASE + 'pyodide.js');
-    pyodide = await loadPyodide({ indexURL: BASE });
-    self.postMessage({type:'ready'});
-  } catch (error) {
-    self.postMessage({type:'init-error', error:String(error && error.message || error)});
+  const errors = [];
+  for (let i = 0; i < SOURCES.length; i++) {
+    const source = SOURCES[i];
+    try {
+      self.postMessage({
+        type: 'loading',
+        message: `Laddar Python (${i + 1}/${SOURCES.length}) via ${source.name} ...`
+      });
+      const { loadPyodide } = await import(source.base + 'pyodide.mjs');
+      pyodide = await loadPyodide({ indexURL: source.base });
+      self.postMessage({ type: 'ready' });
+      return;
+    } catch (error) {
+      errors.push(`${source.name}: ${String(error && error.message || error)}`);
+    }
   }
+  self.postMessage({
+    type: 'init-error',
+    error: 'Kunde inte hämta Python från någon av de två servrarna. ' +
+      'Kontrollera skolans nätverksfilter eller prova ett annat nätverk. ' +
+      errors.join(' | ')
+  });
 })();
 
 self.onmessage = async ({data}) => {
